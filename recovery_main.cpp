@@ -485,18 +485,18 @@ int main(int argc, char** argv) {
   }
 
   // if (get_build_type() != "eng") {
-    device->RemoveMenuItemForAction(Device::RUN_GRAPHICS_TEST);
-    device->RemoveMenuItemForAction(Device::RUN_LOCALE_TEST);
-    device->RemoveMenuItemForAction(Device::ENTER_RESCUE);
+  //  device->RemoveMenuItemForAction(Device::RUN_GRAPHICS_TEST);
+  //  device->RemoveMenuItemForAction(Device::RUN_LOCALE_TEST);
+  //  device->RemoveMenuItemForAction(Device::ENTER_RESCUE);
   // }
 
   // if (get_build_type() != "userdebug") {
-    device->RemoveMenuItemForAction(Device::ENABLE_ADB);
+  //  device->RemoveMenuItemForAction(Device::ENABLE_ADB);
   // }
 
   // if (get_build_type() == "user") {
-    device->RemoveMenuItemForAction(Device::WIPE_SYSTEM);
-    device->RemoveMenuItemForAction(Device::MOUNT_SYSTEM);
+  //  device->RemoveMenuItemForAction(Device::WIPE_SYSTEM);
+  //  device->RemoveMenuItemForAction(Device::MOUNT_SYSTEM);
   // }
 
   ui->SetBackground(RecoveryUI::NONE);
