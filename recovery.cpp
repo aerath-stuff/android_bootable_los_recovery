@@ -175,6 +175,12 @@ static bool yes_no(Device* device, const char* question1, const char* question2)
   return (chosen_item == 1);
 }
 
+bool ask_to_ab_reboot(Device* device) {
+  device->GetUI()->SetProgressType(RecoveryUI::EMPTY);
+  return yes_no(device, "To install additional packages, you need to reboot recovery first",
+                "Do you want to reboot to recovery now?");
+}
+
 bool ask_to_continue_unverified(Device* device) {
   if (get_build_type() == "user") {
     return false;
@@ -954,6 +960,7 @@ Device::BuiltinAction start_recovery(Device* device, const std::vector<std::stri
     if (!sideload_auto_reboot) {
       ui->ShowText(true);
     }
+    ui->SetSideloadAutoReboot(sideload_auto_reboot);
     status = ApplyFromAdb(device, false /* rescue_mode */, &next_action);
     ui->Print("\nInstall from ADB complete (status: %d).\n", status);
     if (sideload_auto_reboot) {
