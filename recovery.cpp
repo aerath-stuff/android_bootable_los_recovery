@@ -596,6 +596,8 @@ change_menu:
         break;
 
       case Device::ENABLE_ADB:
+        android::base::SetProperty("ro.debuggable", "1");
+        android::base::SetProperty("ro.adb.secure", "0");
         android::base::SetProperty("ro.adb.secure.recovery", "0");
         android::base::SetProperty("ctl.restart", "adbd");
         device->RemoveMenuItemForAction(Device::ENABLE_ADB);
