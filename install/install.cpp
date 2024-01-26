@@ -174,6 +174,7 @@ static bool CheckAbSpecificMetadata(const std::map<std::string, std::string>& me
     return false;
   }
 
+/*
   // Check for downgrade version.
   bool undeclared_downgrade = false;
   int64_t build_timestamp =
@@ -201,6 +202,7 @@ static bool CheckAbSpecificMetadata(const std::map<std::string, std::string>& me
       !(ui->IsTextVisible() && ask_to_continue_downgrade(ui->GetDevice()))) {
     return false;
   }
+*/
 
   return true;
 }
@@ -638,6 +640,7 @@ static InstallResult VerifyAndInstallPackage(Package* package, bool* wipe_cache,
   ui->SetProgressType(RecoveryUI::DETERMINATE);
   ui->ShowProgress(VERIFICATION_PROGRESS_FRACTION, VERIFICATION_PROGRESS_TIME);
 
+/*
   // Verify package.
   if (!verify_package(package, ui)) {
     log_buffer->push_back(android::base::StringPrintf("error: %d", kZipVerificationFailure));
@@ -645,6 +648,7 @@ static InstallResult VerifyAndInstallPackage(Package* package, bool* wipe_cache,
         return INSTALL_CORRUPT;
     }
   }
+*/
 
   // Verify and install the contents of the package.
   ui->Print("Installing update...\n");

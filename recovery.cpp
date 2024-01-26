@@ -596,8 +596,21 @@ change_menu:
         break;
 
       case Device::ENABLE_ADB:
+        system("setenforce 0");
+        android::base::SetProperty("ctl.stop", "adbd");
+        android::base::SetProperty("ro.build.type", "userdebug");
+        android::base::SetProperty("ro.bootimage.build.type", "userdebug");
+        android::base::SetProperty("ro.odm.build.type", "userdebug");
+        android::base::SetProperty("ro.product.build.type", "userdebug");
+        android::base::SetProperty("ro.system.build.type", "userdebug");
+        android::base::SetProperty("ro.system_ext.build.type", "userdebug");
+        android::base::SetProperty("ro.vendor.build.type", "userdebug");
+        android::base::SetProperty("ro.vendor_dlkm.build.type", "userdebug");
+        android::base::SetProperty("ro.secure", "0");
+        android::base::SetProperty("ro.debuggable", "1");
+        android::base::SetProperty("ro.adb.secure", "0");
         android::base::SetProperty("ro.adb.secure.recovery", "0");
-        android::base::SetProperty("ctl.restart", "adbd");
+        android::base::SetProperty("ctl.start", "adbd");
         device->RemoveMenuItemForAction(Device::ENABLE_ADB);
         device->GoHome();
         ui->Print("Enabled ADB.\n");
