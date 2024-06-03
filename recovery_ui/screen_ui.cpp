@@ -882,7 +882,7 @@ void ScreenRecoveryUI::draw_menu_and_text_buffer_locked(
 // Draws the battery capacity on the screen. Should only be called with updateMutex locked.
 void ScreenRecoveryUI::draw_battery_capacity_locked() {
   int x;
-  int y = gr_get_height(lineage_logo_.get());
+  int y = margin_height_ + gr_get_height(lineage_logo_.get());
   int icon_x, icon_y, icon_h, icon_w;
 
   // Battery status
@@ -982,7 +982,6 @@ void ScreenRecoveryUI::BattMonitorThreadLoop() {
       // If we can't read battery percentage, it may be a device without battery. In this
       // situation, use 100 as a fake battery percentage.
       if (status != android::OK) {
-        LOG(WARNING) << "Using fake battery capacity 100.";
         prop.valueInt64 = 100;
       }
 

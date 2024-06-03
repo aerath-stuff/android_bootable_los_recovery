@@ -88,7 +88,14 @@ static bool EraseVolume(const char* volume, RecoveryUI* ui) {
     close(fd);
   }
 
-  if (ensure_volume_unmounted(vol->blk_device) == -1) {
+  std::string blk_device;
+
+  if (!android::base::Realpath(vol->blk_device, &blk_device)) {
+    PLOG(ERROR) << "Failed to convert \"" << vol->blk_device << "\" to absolute path";
+    return false;
+  }
+
+  if (ensure_volume_unmounted(blk_device) == -1) {
     PLOG(ERROR) << "Failed to unmount volume!";
     return false;
   }
@@ -122,7 +129,7 @@ bool WipeCache(RecoveryUI* ui, const std::function<bool()>& confirm_func) {
   return success;
 }
 
-bool WipeData(Device* device) {
+bool WipeData(Device* device, bool keep_memtag_mode) {
   RecoveryUI* ui = device->GetUI();
   ui->Print("\n-- Wiping data...\n");
   ui->SetBackground(RecoveryUI::ERASING);
@@ -144,11 +151,15 @@ bool WipeData(Device* device) {
       success &= EraseVolume(METADATA_ROOT, ui);
     }
   }
-  ui->Print("Resetting memtag message...\n");
-  std::string err;
-  if (!WriteMiscMemtagMessage({}, &err)) {
-    ui->Print("Failed to reset memtag message: %s\n", err.c_str());
-    success = false;
+  if (keep_memtag_mode) {
+    ui->Print("NOT resetting memtag message as per request...\n");
+  } else {
+    ui->Print("Resetting memtag message...\n");
+    std::string err;
+    if (!WriteMiscMemtagMessage({}, &err)) {
+      ui->Print("Failed to reset memtag message: %s\n", err.c_str());
+      success = false;
+    }
   }
   if (success) {
     success &= device->PostWipeData();
